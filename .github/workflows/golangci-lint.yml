@@ -1,0 +1,26 @@
+name: golangci-lint
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  golangci:
+    strategy:
+      fail-fast: true
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.17
+      - uses: actions/checkout@v3
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          args: --disable-all -E deadcode -E errcheck -E gosimple -E govet -E ineffassign -E staticcheck -E typecheck -E unused -E varcheck -E bidichk -E decorder -E depguard -E dogsled -E dupl -E durationcheck -E errchkjson -E errname -E errorlint -E exportloopref -E gci -E goconst -E gocyclo -E godox -E goerr113 -E goimports -E goprintffuncname -E gosec -E grouper -E ifshort -E maintidx -E makezero -E nakedret -E nilnil -E prealloc -E predeclared -E revive -E unconvert -E whitespace
