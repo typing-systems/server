@@ -3,45 +3,23 @@ package main
 import (
 	"log"
 	"net"
-	"os"
-	"time"
-)
 
-const (
-	HOST = "localhost"
-	PORT = "9001"
-	TYPE = "tcp"
+	"github.com/typing-systems/typing-server/cmd/connections"
 )
 
 func main() {
-	listen, err := net.Listen(TYPE, HOST+":"+PORT)
+	l, err := net.Listen("tcp", ":9000")
 	if err != nil {
 		log.Fatal(err)
-		os.Exit(1)
 	}
-	defer listen.Close()
+	defer l.Close()
 
 	for {
-		conn, err := listen.Accept()
+		c, err := l.Accept()
 		if err != nil {
 			log.Fatal(err)
-			os.Exit(1)
 		}
 
-		go handleIncomingRequest(conn)
+		go connections.HandleConnection(c)
 	}
-}
-
-func handleIncomingRequest(conn net.Conn) {
-	// storing incoming data
-	buffer := make([]byte, 1024)
-	_, err := conn.Read(buffer)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// respond
-	time := time.Now().Format("15:04:05 02/Jan/2006")
-	conn.Write([]byte("Message received at "))
-	conn.Write([]byte(time + "\n"))
 }
