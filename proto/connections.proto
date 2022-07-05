@@ -1,0 +1,12 @@
+syntax = "proto3";
+package chat;
+option go_package = "cmd/connections";
+
+message Message {
+    string body = 1;
+}
+
+service Connections {
+    rpc SayHello(Message) returns (Message) {}
+    rpc Connected(Message) returns (Message) {}
+}
