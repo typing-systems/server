@@ -4,7 +4,8 @@ import (
 	"log"
 	"net"
 
-	"github.com/typing-systems/typing-server/cmd/connections"
+	"github.com/typing-systems/typing-server/cmd/chat"
+	"google.golang.org/grpc"
 )
 
 func main() {
@@ -14,12 +15,12 @@ func main() {
 	}
 	defer l.Close()
 
-	for {
-		c, err := l.Accept()
-		if err != nil {
-			log.Fatal(err)
-		}
+	grpcServer := grpc.NewServer()
 
-		go connections.HandleConnection(c)
+	s := chat.Server{}
+	chat.RegisterChatServiceServer(grpcServer, &s)
+
+	if err := grpcServer.Serve(l); err != nil {
+		log.Fatal("failed to serve", err)
 	}
 }
