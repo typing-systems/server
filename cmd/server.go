@@ -5,21 +5,22 @@ import (
 	"net"
 
 	"github.com/typing-systems/typing-server/cmd/connections"
+	"google.golang.org/grpc"
 )
 
 func main() {
-	l, err := net.Listen("tcp", ":9000")
+	l, err := net.Listen("tcp", "localhost:9000")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer l.Close()
 
-	for {
-		c, err := l.Accept()
-		if err != nil {
-			log.Fatal(err)
-		}
+	grpcServer := grpc.NewServer()
 
-		go connections.HandleConnection(c)
+	s := connections.Server{}
+	connections.RegisterConnectionsServer(grpcServer, &s)
+
+	if err := grpcServer.Serve(l); err != nil {
+		log.Fatal("failed to serve", err)
 	}
 }
