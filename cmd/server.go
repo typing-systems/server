@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	l, err := net.Listen("tcp", ":9000")
+	l, err := net.Listen("tcp", "localhost:9000")
 	if err != nil {
 		log.Fatal(err)
 	}
