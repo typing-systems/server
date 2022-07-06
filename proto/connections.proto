@@ -6,7 +6,20 @@ message Message {
     string body = 1;
 }
 
+message MyPosition {
+    string ID = 1;
+    string lane = 2;
+}
+
+message PositionInfo {
+    string lane1 = 1;
+    string lane2 = 2;
+    string lane3 = 3;
+    string lane4 = 4;
+}
+
 service Connections {
     rpc SayHello(Message) returns (Message) {}
     rpc Connected(Message) returns (Message) {}
+    rpc Positions(MyPosition) returns (PositionInfo) {}
 }
