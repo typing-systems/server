@@ -18,9 +18,16 @@ func (s *Server) Connected(ctx context.Context, message *Message) (*Message, err
 	if err != nil {
 		return nil, errors.New("Error finding a game")
 	}
+	db.LobbySetZero(lobbyID)
 	db.PlayerHSet(message.Body, "lobbyID", lobbyID)
 	log.Printf("player lobby: %s", db.PlayerHGet(message.Body, "lobbyID"))
 	return &Message{Body: "Game found!"}, nil
+}
+
+func (s *Server) Positions(ctx context.Context, myPosition *MyPosition) (*PositionInfo, error) {
+	positions := db.LobbyUpdatePosition("lobbyID", myPosition.Lane)
+
+	return &PositionInfo{Lane1: positions[0], Lane2: positions[1], Lane3: positions[2], Lane4: positions[3]}, nil
 }
 
 func (s *Server) SayHello(ctx context.Context, message *Message) (*Message, error) {

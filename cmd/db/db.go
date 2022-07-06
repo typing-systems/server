@@ -2,6 +2,7 @@ package db
 
 import (
 	"errors"
+	"log"
 
 	"github.com/go-redis/redis"
 )
@@ -40,4 +41,32 @@ func PlayerHGet(key string, fld string) string {
 	}
 
 	return result
+}
+
+func LobbyUpdatePosition(key string, fld string) []string {
+	lobbyDB.HIncrBy(key, fld, 1)
+	results, err := lobbyDB.HMGet(key, "lane1", "lane2", "lane3", "lane4").Result()
+	if err != nil {
+		return []string{"Error retrieving " + key}
+	}
+
+	// log.Printf("r1: %s\nr2: %s\nr3: %s\nr4: %s", r1, r2, r3, r4)
+	log.Printf("results: %s", results)
+
+	asserted := make([]string, 4)
+	for i, lane := range results {
+		if lane == nil {
+			log.Fatalf("lane %d is nil!", i)
+		}
+		asserted[i] = lane.(string)
+	}
+
+	return asserted
+}
+
+func LobbySetZero(key string) {
+	lobbyDB.HSet(key, "lane1", "0")
+	lobbyDB.HSet(key, "lane2", "7")
+	lobbyDB.HSet(key, "lane3", "6")
+	lobbyDB.HSet(key, "lane4", "3")
 }

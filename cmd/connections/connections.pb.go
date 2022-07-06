@@ -71,20 +71,159 @@ func (x *Message) GetBody() string {
 	return ""
 }
 
+type MyPosition struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID   string `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Lane string `protobuf:"bytes,2,opt,name=lane,proto3" json:"lane,omitempty"`
+}
+
+func (x *MyPosition) Reset() {
+	*x = MyPosition{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_connections_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MyPosition) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MyPosition) ProtoMessage() {}
+
+func (x *MyPosition) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_connections_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MyPosition.ProtoReflect.Descriptor instead.
+func (*MyPosition) Descriptor() ([]byte, []int) {
+	return file_proto_connections_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *MyPosition) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+func (x *MyPosition) GetLane() string {
+	if x != nil {
+		return x.Lane
+	}
+	return ""
+}
+
+type PositionInfo struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Lane1 string `protobuf:"bytes,1,opt,name=lane1,proto3" json:"lane1,omitempty"`
+	Lane2 string `protobuf:"bytes,2,opt,name=lane2,proto3" json:"lane2,omitempty"`
+	Lane3 string `protobuf:"bytes,3,opt,name=lane3,proto3" json:"lane3,omitempty"`
+	Lane4 string `protobuf:"bytes,4,opt,name=lane4,proto3" json:"lane4,omitempty"`
+}
+
+func (x *PositionInfo) Reset() {
+	*x = PositionInfo{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_connections_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PositionInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PositionInfo) ProtoMessage() {}
+
+func (x *PositionInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_connections_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PositionInfo.ProtoReflect.Descriptor instead.
+func (*PositionInfo) Descriptor() ([]byte, []int) {
+	return file_proto_connections_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *PositionInfo) GetLane1() string {
+	if x != nil {
+		return x.Lane1
+	}
+	return ""
+}
+
+func (x *PositionInfo) GetLane2() string {
+	if x != nil {
+		return x.Lane2
+	}
+	return ""
+}
+
+func (x *PositionInfo) GetLane3() string {
+	if x != nil {
+		return x.Lane3
+	}
+	return ""
+}
+
+func (x *PositionInfo) GetLane4() string {
+	if x != nil {
+		return x.Lane4
+	}
+	return ""
+}
+
 var File_proto_connections_proto protoreflect.FileDescriptor
 
 var file_proto_connections_proto_rawDesc = []byte{
 	0x0a, 0x17, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69,
 	0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x04, 0x63, 0x68, 0x61, 0x74, 0x22,
 	0x1d, 0x0a, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x62, 0x6f,
-	0x64, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x62, 0x6f, 0x64, 0x79, 0x32, 0x66,
-	0x0a, 0x0b, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x2a, 0x0a,
-	0x08, 0x53, 0x61, 0x79, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x12, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74,
-	0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e,
-	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x00, 0x12, 0x2b, 0x0a, 0x09, 0x43, 0x6f, 0x6e,
-	0x6e, 0x65, 0x63, 0x74, 0x65, 0x64, 0x12, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4d, 0x65,
-	0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4d, 0x65, 0x73,
-	0x73, 0x61, 0x67, 0x65, 0x22, 0x00, 0x42, 0x11, 0x5a, 0x0f, 0x63, 0x6d, 0x64, 0x2f, 0x63, 0x6f,
+	0x64, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x62, 0x6f, 0x64, 0x79, 0x22, 0x30,
+	0x0a, 0x0a, 0x4d, 0x79, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x0e, 0x0a, 0x02,
+	0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x12, 0x12, 0x0a, 0x04,
+	0x6c, 0x61, 0x6e, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6c, 0x61, 0x6e, 0x65,
+	0x22, 0x66, 0x0a, 0x0c, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f,
+	0x12, 0x14, 0x0a, 0x05, 0x6c, 0x61, 0x6e, 0x65, 0x31, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x05, 0x6c, 0x61, 0x6e, 0x65, 0x31, 0x12, 0x14, 0x0a, 0x05, 0x6c, 0x61, 0x6e, 0x65, 0x32, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6c, 0x61, 0x6e, 0x65, 0x32, 0x12, 0x14, 0x0a, 0x05,
+	0x6c, 0x61, 0x6e, 0x65, 0x33, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6c, 0x61, 0x6e,
+	0x65, 0x33, 0x12, 0x14, 0x0a, 0x05, 0x6c, 0x61, 0x6e, 0x65, 0x34, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x05, 0x6c, 0x61, 0x6e, 0x65, 0x34, 0x32, 0x9b, 0x01, 0x0a, 0x0b, 0x43, 0x6f, 0x6e,
+	0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x2a, 0x0a, 0x08, 0x53, 0x61, 0x79, 0x48,
+	0x65, 0x6c, 0x6c, 0x6f, 0x12, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x1a, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x22, 0x00, 0x12, 0x2b, 0x0a, 0x09, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x65,
+	0x64, 0x12, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x1a, 0x0d, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22,
+	0x00, 0x12, 0x33, 0x0a, 0x09, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x10,
+	0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x4d, 0x79, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e,
+	0x1a, 0x12, 0x2e, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e,
+	0x49, 0x6e, 0x66, 0x6f, 0x22, 0x00, 0x42, 0x11, 0x5a, 0x0f, 0x63, 0x6d, 0x64, 0x2f, 0x63, 0x6f,
 	0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x33,
 }
@@ -101,17 +240,21 @@ func file_proto_connections_proto_rawDescGZIP() []byte {
 	return file_proto_connections_proto_rawDescData
 }
 
-var file_proto_connections_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_proto_connections_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_proto_connections_proto_goTypes = []interface{}{
-	(*Message)(nil), // 0: chat.Message
+	(*Message)(nil),      // 0: chat.Message
+	(*MyPosition)(nil),   // 1: chat.MyPosition
+	(*PositionInfo)(nil), // 2: chat.PositionInfo
 }
 var file_proto_connections_proto_depIdxs = []int32{
 	0, // 0: chat.Connections.SayHello:input_type -> chat.Message
 	0, // 1: chat.Connections.Connected:input_type -> chat.Message
-	0, // 2: chat.Connections.SayHello:output_type -> chat.Message
-	0, // 3: chat.Connections.Connected:output_type -> chat.Message
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	1, // 2: chat.Connections.Positions:input_type -> chat.MyPosition
+	0, // 3: chat.Connections.SayHello:output_type -> chat.Message
+	0, // 4: chat.Connections.Connected:output_type -> chat.Message
+	2, // 5: chat.Connections.Positions:output_type -> chat.PositionInfo
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -135,6 +278,30 @@ func file_proto_connections_proto_init() {
 				return nil
 			}
 		}
+		file_proto_connections_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MyPosition); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_connections_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PositionInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -142,7 +309,7 @@ func file_proto_connections_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_proto_connections_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -170,6 +337,7 @@ const _ = grpc.SupportPackageIsVersion6
 type ConnectionsClient interface {
 	SayHello(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
 	Connected(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
+	Positions(ctx context.Context, in *MyPosition, opts ...grpc.CallOption) (*PositionInfo, error)
 }
 
 type connectionsClient struct {
@@ -198,10 +366,20 @@ func (c *connectionsClient) Connected(ctx context.Context, in *Message, opts ...
 	return out, nil
 }
 
+func (c *connectionsClient) Positions(ctx context.Context, in *MyPosition, opts ...grpc.CallOption) (*PositionInfo, error) {
+	out := new(PositionInfo)
+	err := c.cc.Invoke(ctx, "/chat.Connections/Positions", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ConnectionsServer is the server API for Connections service.
 type ConnectionsServer interface {
 	SayHello(context.Context, *Message) (*Message, error)
 	Connected(context.Context, *Message) (*Message, error)
+	Positions(context.Context, *MyPosition) (*PositionInfo, error)
 }
 
 // UnimplementedConnectionsServer can be embedded to have forward compatible implementations.
@@ -213,6 +391,9 @@ func (*UnimplementedConnectionsServer) SayHello(context.Context, *Message) (*Mes
 }
 func (*UnimplementedConnectionsServer) Connected(context.Context, *Message) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Connected not implemented")
+}
+func (*UnimplementedConnectionsServer) Positions(context.Context, *MyPosition) (*PositionInfo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Positions not implemented")
 }
 
 func RegisterConnectionsServer(s *grpc.Server, srv ConnectionsServer) {
@@ -255,6 +436,24 @@ func _Connections_Connected_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Connections_Positions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MyPosition)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ConnectionsServer).Positions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/chat.Connections/Positions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ConnectionsServer).Positions(ctx, req.(*MyPosition))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Connections_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "chat.Connections",
 	HandlerType: (*ConnectionsServer)(nil),
@@ -266,6 +465,10 @@ var _Connections_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Connected",
 			Handler:    _Connections_Connected_Handler,
+		},
+		{
+			MethodName: "Positions",
+			Handler:    _Connections_Positions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
