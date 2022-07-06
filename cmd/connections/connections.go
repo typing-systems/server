@@ -9,6 +9,8 @@ import (
 	"github.com/typing-systems/typing-server/cmd/lobby"
 )
 
+var gameNotFound = errors.New("error game not found")
+
 type Server struct{}
 
 func (s *Server) Connected(ctx context.Context, message *Message) (*Message, error) {
@@ -16,7 +18,7 @@ func (s *Server) Connected(ctx context.Context, message *Message) (*Message, err
 
 	lobbyID, err := lobby.Matchmake()
 	if err != nil {
-		return nil, errors.New("Error finding a game")
+		return nil, gameNotFound
 	}
 	db.LobbySetZero(lobbyID)
 	db.PlayerHSet(message.Body, "lobbyID", lobbyID)

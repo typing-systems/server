@@ -1,7 +1,6 @@
 package db
 
 import (
-	"errors"
 	"log"
 
 	"github.com/go-redis/redis"
@@ -21,17 +20,6 @@ var lobbyDB = redis.NewClient(&redis.Options{
 
 func PlayerHSet(key string, fld string, val string) {
 	playerDB.HSet(key, fld, val)
-}
-
-func PlayerMultiSet(key string, flds []string, vals []string) error {
-	if len(flds) != len(vals) {
-		return errors.New("db.HSet error: fields and values different lengths")
-	}
-
-	for i := range flds {
-		playerDB.HSet(key, flds[i], vals[i])
-	}
-	return nil
 }
 
 func PlayerHGet(key string, fld string) string {
