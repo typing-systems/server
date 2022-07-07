@@ -6,40 +6,20 @@ import (
 	"github.com/go-redis/redis"
 )
 
-var playerDB = redis.NewClient(&redis.Options{
+var db = redis.NewClient(&redis.Options{
 	Addr:     "localhost:6379",
 	Password: "", // no password set
 	DB:       0,  // use default DB
 })
 
-var lobbyDB = redis.NewClient(&redis.Options{
-	Addr:     "localhost:6379",
-	Password: "", // no password set
-	DB:       1,  // use lobby DB
-})
-
-func PlayerHSet(key string, fld string, val string) {
-	playerDB.HSet(key, fld, val)
-}
-
-func PlayerHGet(key string, fld string) string {
-	result, err := playerDB.HGet(key, fld).Result()
-	if err != nil {
-		return "Error retrieving " + key
-	}
-
-	return result
-}
-
-func LobbyUpdatePosition(key string, fld string) []string {
-	lobbyDB.HIncrBy(key, fld, 1)
-	results, err := lobbyDB.HMGet(key, "lane1", "lane2", "lane3", "lane4").Result()
+func UpdatePosition(key string, fld string) []string {
+	db.HIncrBy(key, fld, 1)
+	results, err := db.HMGet(key, "lane1", "lane2", "lane3", "lane4").Result()
 	if err != nil {
 		return []string{"Error retrieving " + key}
 	}
 
-	// log.Printf("r1: %s\nr2: %s\nr3: %s\nr4: %s", r1, r2, r3, r4)
-	log.Printf("results: %s", results)
+	log.Printf("results: %s | lobby: %s", results, key)
 
 	asserted := make([]string, 4)
 	for i, lane := range results {
@@ -52,9 +32,32 @@ func LobbyUpdatePosition(key string, fld string) []string {
 	return asserted
 }
 
-func LobbySetZero(key string) {
-	lobbyDB.HSet(key, "lane1", "0")
-	lobbyDB.HSet(key, "lane2", "7")
-	lobbyDB.HSet(key, "lane3", "6")
-	lobbyDB.HSet(key, "lane4", "3")
+func InitLobby(key string) {
+	log.Printf("initlobby: %s", key)
+	db.HSet(key, "playerCount", "1")
+	db.HSet(key, "lane1", "0")
+	db.HSet(key, "lane2", "0")
+	db.HSet(key, "lane3", "0")
+	db.HSet(key, "lane4", "0")
+}
+
+func GetAllLobbies() []string {
+	keys, err := db.Keys("*").Result()
+	if err != nil {
+		log.Fatalf("error retrieving all lobbies: %v", err)
+	}
+
+	return keys
+}
+
+func GetPlayerCount(lobby string) string {
+	playerCount, err := db.HGet(lobby, "playerCount").Result()
+	if err != nil {
+		log.Fatalf("error getting player count: %v", err)
+	}
+	return playerCount
+}
+
+func IncrPlayerCount(lobby string) {
+	db.HIncrBy(lobby, "playerCount", 1)
 }
