@@ -2,9 +2,7 @@ syntax = "proto3";
 package chat;
 option go_package = "cmd/connections";
 
-message Message {
-    string body = 1;
-}
+message Empty {}
 
 message MyPosition {
     string ID = 1;
@@ -19,7 +17,6 @@ message PositionInfo {
 }
 
 service Connections {
-    rpc SayHello(Message) returns (Message) {}
-    rpc Connected(Message) returns (Message) {}
+    rpc Connected(Empty) returns (MyPosition) {}
     rpc Positions(MyPosition) returns (PositionInfo) {}
 }
