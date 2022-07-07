@@ -2,19 +2,15 @@ package connections
 
 import (
 	"context"
-	"errors"
 	"log"
 
 	"github.com/typing-systems/typing-server/cmd/db"
 	"github.com/typing-systems/typing-server/cmd/lobby"
 )
 
-var errGameNotFound = errors.New("error game not found")
-
 type Server struct{}
 
 func (s *Server) Connected(ctx context.Context, e *Empty) (*MyPosition, error) {
-
 	log.Printf("Client connected")
 
 	lobbyID, lane := lobby.Matchmake()
