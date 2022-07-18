@@ -3,6 +3,7 @@ package connections
 import (
 	"context"
 	"log"
+	"time"
 
 	"github.com/typing-systems/typing-server/cmd/db"
 	"github.com/typing-systems/typing-server/cmd/lobby"
@@ -15,11 +16,21 @@ func (s *Server) Connected(ctx context.Context, e *Empty) (*MyPosition, error) {
 
 	lobbyID, lane := lobby.Matchmake()
 	db.InitLobby(lobbyID)
-	return &MyPosition{ID: lobbyID, Lane: lane}, nil
+	return &MyPosition{LobbyID: lobbyID, Lane: lane}, nil
 }
 
-func (s *Server) Positions(ctx context.Context, myPosition *MyPosition) (*PositionInfo, error) {
-	positions := db.UpdatePosition(myPosition.ID, myPosition.Lane)
+func (s *Server) UpdatePosition(ctx context.Context, myPosition *MyPosition) (*Empty, error) {
+	db.UpdatePosition(myPosition.LobbyID, myPosition.Lane)
+	return &Empty{}, nil
+}
 
-	return &PositionInfo{Lane1: positions[0], Lane2: positions[1], Lane3: positions[2], Lane4: positions[3]}, nil
+func (s *Server) Positions(lobbyID *MyLobby, stream Connections_PositionsServer) error {
+	for {
+		positionInfo, err := db.GetPositionInfo(lobbyID.LobbyID)
+		if err != nil {
+			log.Fatalf("error calling db.GetPositionInfo: %v", err)
+		}
+		stream.Send(&PositionInfo{Lane1: positionInfo[0], Lane2: positionInfo[1], Lane3: positionInfo[2], Lane4: positionInfo[3]})
+		time.Sleep(500 * time.Millisecond)
+	}
 }

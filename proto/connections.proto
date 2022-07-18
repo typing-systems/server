@@ -5,8 +5,12 @@ option go_package = "cmd/connections";
 message Empty {}
 
 message MyPosition {
-    string ID = 1;
+    string lobbyID = 1;
     string lane = 2;
+}
+
+message MyLobby {
+    string lobbyID = 1;
 }
 
 message PositionInfo {
@@ -18,5 +22,6 @@ message PositionInfo {
 
 service Connections {
     rpc Connected(Empty) returns (MyPosition) {}
-    rpc Positions(MyPosition) returns (PositionInfo) {}
+    rpc UpdatePosition(MyPosition) returns (Empty) {}
+    rpc Positions(MyLobby) returns (stream PositionInfo) {}
 }

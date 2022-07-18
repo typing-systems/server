@@ -12,11 +12,14 @@ var db = redis.NewClient(&redis.Options{
 	DB:       0,  // use default DB
 })
 
-func UpdatePosition(key string, fld string) []string {
+func UpdatePosition(key string, fld string) {
 	db.HIncrBy(key, fld, 1)
+}
+
+func GetPositionInfo(key string) ([]string, error) {
 	results, err := db.HMGet(key, "lane1", "lane2", "lane3", "lane4").Result()
 	if err != nil {
-		return []string{"Error retrieving " + key}
+		return nil, err
 	}
 
 	log.Printf("results: %s | lobby: %s", results, key)
@@ -29,7 +32,7 @@ func UpdatePosition(key string, fld string) []string {
 		asserted[i] = lane.(string)
 	}
 
-	return asserted
+	return asserted, nil
 }
 
 func InitLobby(key string) {
