@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 
@@ -18,17 +19,18 @@ func GenerateUUID() string {
 	return id.String()
 }
 
-func Matchmake(uuid string, lobbies pubsub.Lobbies) (string, bool) {
+func Matchmake(uuid string, lobbies pubsub.Lobbies) (string, string, bool) {
 	for _, lobby := range lobbies {
 		playerCount := lobby.GetPlayerCount()
-
+		fmt.Printf("playerCount of %s is: %d\n", lobby.GetLobbyID(), lobby.GetPlayerCount())
 		if playerCount < 4 {
 			lobby.IncrPlayerCount()
-			return "lane" + strconv.Itoa(playerCount+1), false
+			fmt.Printf("adding client to %s\n", lobby.GetLobbyID())
+			return lobby.GetLobbyID(), "lane" + strconv.Itoa(playerCount+1), false
 		}
 	}
 
-	return "lane1", true
+	return uuid, "lane1", true
 }
 
 func InstantiateBroker() *pubsub.Broker {

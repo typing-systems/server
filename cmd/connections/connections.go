@@ -17,13 +17,14 @@ func (s *Server) Connected(ctx context.Context, e *Empty) (*MyPosition, error) {
 	log.Printf("Client connected")
 
 	uuid := utils.GenerateUUID()
-	lane, isNewLobby := utils.Matchmake(uuid, b.GetAllLobbies())
+	lobbyID, lane, isNewLobby := utils.Matchmake(uuid, b.GetAllLobbies())
 
 	if isNewLobby {
-		b.AddLobby(uuid)
+		fmt.Printf("Making a new lobby: %s\n", uuid)
+		b.AddLobby(lobbyID)
 	}
 
-	return &MyPosition{LobbyID: uuid, Lane: lane}, nil
+	return &MyPosition{LobbyID: lobbyID, Lane: lane}, nil
 }
 
 func (s *Server) UpdatePosition(ctx context.Context, myPosition *MyPosition) (*Empty, error) {

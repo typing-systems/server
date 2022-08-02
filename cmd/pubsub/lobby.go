@@ -15,10 +15,11 @@ type Lobby struct {
 
 func CreateNewLobby(uuid string) *Lobby {
 	newLobby := Lobby{
-		id:     uuid,
-		exists: true,
-		lanes:  []int{0, 0, 0, 0},
-		data:   make(chan *Data),
+		id:          uuid,
+		exists:      true,
+		playerCount: 1,
+		lanes:       []int{0, 0, 0, 0},
+		data:        make(chan *Data),
 	}
 	return &newLobby
 }
