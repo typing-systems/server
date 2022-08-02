@@ -42,7 +42,6 @@ func (l *Lobby) GetPlayerCount() int {
 }
 
 func (l *Lobby) GetDataChan() chan *Data {
-	print(l.data)
 	return l.data
 }
 

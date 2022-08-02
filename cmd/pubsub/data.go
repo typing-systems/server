@@ -17,3 +17,6 @@ func (d *Data) GetLane() string {
 func (d *Data) GetPoints() int {
 	return d.Points
 }
+func (d *Data) GetPoints32() int32 {
+	return int32(d.Points)
+}

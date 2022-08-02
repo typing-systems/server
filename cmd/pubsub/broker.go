@@ -17,10 +17,11 @@ func NewBroker() *Broker {
 	}
 }
 
-func (b *Broker) AddLobby(l *Lobby) {
+func (b *Broker) AddLobby(uuid string) {
 	b.mut.Lock()
 	defer b.mut.Unlock()
-	b.lobbies[l.GetLobbyID()] = l
+	l := CreateNewLobby(uuid)
+	b.lobbies[uuid] = l
 }
 
 func (b *Broker) RemoveLobby(l *Lobby) {
@@ -36,6 +37,25 @@ func (b *Broker) GetLobby(uuid string) *Lobby {
 
 func (b *Broker) GetAllLobbies() Lobbies {
 	return b.lobbies
+}
+
+func (b *Broker) IncrPoints(uuid string, lane string) int {
+	l := b.lobbies[uuid]
+	switch lane {
+	case "lane1":
+		l.lanes[0]++
+		return l.lanes[0]
+	case "lane2":
+		l.lanes[1]++
+		return l.lanes[1]
+	case "lane3":
+		l.lanes[2]++
+		return l.lanes[2]
+	case "lane4":
+		l.lanes[3]++
+		return l.lanes[3]
+	}
+	return -1
 }
 
 func (b *Broker) Publish(uuid string, lane string, points int) {

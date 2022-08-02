@@ -13,15 +13,13 @@ message MyLobby {
     string lobbyID = 1;
 }
 
-message PositionInfo {
-    string lane1 = 1;
-    string lane2 = 2;
-    string lane3 = 3;
-    string lane4 = 4;
+message NewPosition {
+    string lane = 1;
+    int32 points = 2;
 }
 
 service Connections {
     rpc Connected(Empty) returns (MyPosition) {}
     rpc UpdatePosition(MyPosition) returns (Empty) {}
-    rpc Positions(MyLobby) returns (stream PositionInfo) {}
+    rpc Positions(MyLobby) returns (stream NewPosition) {}
 }
