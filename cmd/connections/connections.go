@@ -2,35 +2,47 @@ package connections
 
 import (
 	"context"
+	"fmt"
 	"log"
-	"time"
+	"strconv"
 
 	"github.com/typing-systems/typing-server/cmd/db"
-	"github.com/typing-systems/typing-server/cmd/lobby"
+	"github.com/typing-systems/typing-server/cmd/utils"
 )
 
 type Server struct{}
 
+var b = utils.InstantiateBroker()
+
 func (s *Server) Connected(ctx context.Context, e *Empty) (*MyPosition, error) {
 	log.Printf("Client connected")
 
-	lobbyID, lane := lobby.Matchmake()
-	db.InitLobby(lobbyID)
-	return &MyPosition{LobbyID: lobbyID, Lane: lane}, nil
+	uuid := utils.GenerateUUID()
+	lane, isNewLobby := utils.Matchmake(uuid, b.GetAllLobbies())
+
+	return &MyPosition{LobbyID: uuid, Lane: lane}, nil
 }
 
 func (s *Server) UpdatePosition(ctx context.Context, myPosition *MyPosition) (*Empty, error) {
 	db.UpdatePosition(myPosition.LobbyID, myPosition.Lane)
+
+	b.Publish(myPosition.LobbyID, myPosition.Lane, 9)
+
 	return &Empty{}, nil
 }
 
-func (s *Server) Positions(lobbyID *MyLobby, stream Connections_PositionsServer) error {
+func (s *Server) Positions(lobby *MyLobby, stream Connections_PositionsServer) error {
+	l := b.GetLobby(lobby.LobbyID)
+	data := l.GetDataChan()
+	fmt.Println("arite pal-1")
+	fmt.Println(data)
+
 	for {
-		positionInfo, err := db.GetPositionInfo(lobbyID.LobbyID)
-		if err != nil {
-			log.Fatalf("error calling db.GetPositionInfo: %v", err)
+		fmt.Println("arite pal")
+		if data, ok := <-data; ok {
+			fmt.Printf("Lobby %s, received a fucking update: for lane: %s, newPoints: %d\n", lobby.LobbyID, data.GetLane(), data.GetPoints())
+			lanes := l.GetLanes()
+			stream.Send(&PositionInfo{Lane1: strconv.Itoa(lanes[0]), Lane2: strconv.Itoa(lanes[1]), Lane3: strconv.Itoa(lanes[2]), Lane4: strconv.Itoa(lanes[3])})
 		}
-		stream.Send(&PositionInfo{Lane1: positionInfo[0], Lane2: positionInfo[1], Lane3: positionInfo[2], Lane4: positionInfo[3]})
-		time.Sleep(500 * time.Millisecond)
 	}
 }
