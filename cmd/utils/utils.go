@@ -25,7 +25,7 @@ func Matchmake(uuid string, lobbies pubsub.Lobbies) (string, string, bool) {
 		fmt.Printf("playerCount of %s is: %d\n", lobby.GetLobbyID(), lobby.GetPlayerCount())
 		if playerCount < 4 {
 			lobby.IncrPlayerCount()
-			fmt.Printf("adding client to %s\n", lobby.GetLobbyID())
+			fmt.Printf("\033[33madding client to %s\033[0m\n", lobby.GetLobbyID())
 			return lobby.GetLobbyID(), "lane" + strconv.Itoa(playerCount+1), false
 		}
 	}

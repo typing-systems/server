@@ -14,13 +14,13 @@ type Server struct{}
 var b = utils.InstantiateBroker()
 
 func (s *Server) Connected(ctx context.Context, e *Empty) (*MyPosition, error) {
-	log.Printf("Client connected")
+	log.Printf("\033[32mClient connected\033[0m")
 
 	uuid := utils.GenerateUUID()
 	lobbyID, lane, isNewLobby := utils.Matchmake(uuid, b.GetAllLobbies())
 
 	if isNewLobby {
-		fmt.Printf("Making a new lobby: %s\n", uuid)
+		fmt.Printf("\033[33mMaking a new lobby: %s\033[0m\n", uuid)
 		b.AddLobby(lobbyID)
 	}
 
