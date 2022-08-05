@@ -3,7 +3,9 @@ package utils
 import (
 	"fmt"
 	"log"
+	"os"
 	"strconv"
+	"time"
 
 	"github.com/gofrs/uuid"
 	"github.com/typing-systems/typing-server/cmd/pubsub"
@@ -35,4 +37,16 @@ func Matchmake(uuid string, lobbies pubsub.Lobbies) (string, string, bool) {
 
 func InstantiateBroker() *pubsub.Broker {
 	return pubsub.NewBroker()
+}
+
+func Log(text string) {
+	f, err := os.OpenFile("./server.log", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	if err != nil {
+		panic(err)
+	}
+
+	if _, err = f.WriteString(time.Now().Format("01-02-2006 15:04:05.000000		") + text + "\n"); err != nil {
+		panic(err)
+	}
+	f.Close()
 }
