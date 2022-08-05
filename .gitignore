@@ -21,3 +21,5 @@
 go.work
 
 *.txt
+
+*.log

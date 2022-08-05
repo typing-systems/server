@@ -30,7 +30,7 @@ func (s *Server) Connected(ctx context.Context, e *Empty) (*MyPosition, error) {
 func (s *Server) UpdatePosition(ctx context.Context, myPosition *MyPosition) (*Empty, error) {
 	db.UpdatePosition(myPosition.LobbyID, myPosition.Lane)
 
-	utils.Log("Calling UpdatePosition on lobby" + myPosition.LobbyID + " for " + myPosition.Lane)
+	utils.Log("Calling UpdatePosition on lobby " + myPosition.LobbyID + " for " + myPosition.Lane)
 	newPoint := b.IncrPoints(myPosition.LobbyID, myPosition.Lane)
 	b.Publish(myPosition.LobbyID, myPosition.Lane, newPoint)
 	utils.Log("UpdatePosition finished")
@@ -45,7 +45,7 @@ func (s *Server) Positions(lobby *MyLobby, stream Connections_PositionsServer) e
 
 	for {
 		if data, ok := <-data; ok {
-			utils.Log("Sending lane " + data.Lane + " and points " + strconv.Itoa(data.GetPoints()) + "to " + lobby.LobbyID)
+			utils.Log("Sending lane " + data.Lane + " and points " + strconv.Itoa(data.GetPoints()) + " to " + lobby.LobbyID)
 			msg := &NewPosition{Lane: data.GetLane(), Points: data.GetPoints32()}
 			err := stream.Send(msg)
 			if err != nil {
