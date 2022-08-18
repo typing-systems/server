@@ -48,5 +48,8 @@ func Log(text string) {
 	if _, err = f.WriteString(time.Now().Format("01-02-2006 15:04:05.000000		") + text + "\n"); err != nil {
 		panic(err)
 	}
-	f.Close()
+
+	if _, err = f.WriteString(time.Now().Format("01-02-2006 15:04:05.000000		") + text + "\n"); err != nil {
+		panic(err)
+	}
 }
