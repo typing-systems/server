@@ -49,7 +49,7 @@ func Log(text string) {
 		panic(err)
 	}
 
-	if _, err = f.WriteString(time.Now().Format("01-02-2006 15:04:05.000000		") + text + "\n"); err != nil {
-		panic(err)
+	if err := f.Close(); err != nil {
+		log.Fatalf("error closing file: %v", err)
 	}
 }
