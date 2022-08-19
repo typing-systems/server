@@ -24,7 +24,7 @@ func Load(env string) {
 	} else if err != nil {
 		log.Fatalf("error detecting if settings file exists: %v", err)
 	} else {
-		f, err := os.Open(filename)
+		f, err := os.Open(filepath.Clean(filename))
 		if err != nil {
 			log.Fatalf("error opening settings file: %v", err)
 		}
@@ -54,7 +54,7 @@ func generate(env string) settings {
 
 	// 0600 file perm means read/write by owner only
 	filename := filepath.Join(filepath.Clean(env), "_settings.json")
-	err = ioutil.WriteFile(filename, jsonCfg, 0600)
+	err = ioutil.WriteFile(filepath.Clean(filename), jsonCfg, 0600)
 	if err != nil {
 		log.Fatalf("error writing settings file: %v", err)
 	}
