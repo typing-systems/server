@@ -5,12 +5,14 @@ import (
 	"net"
 
 	"github.com/typing-systems/typing-server/cmd/connections"
+	"github.com/typing-systems/typing-server/cmd/settings"
 	"github.com/typing-systems/typing-server/cmd/utils"
 	"google.golang.org/grpc"
 )
 
 func main() {
-	utils.LoadConfig()
+	settings.Load("prod")
+
 	utils.Log("test")
 	l, err := net.Listen("tcp", "localhost:9000")
 	if err != nil {
