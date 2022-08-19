@@ -9,6 +9,7 @@ import (
 
 	"github.com/gofrs/uuid"
 	"github.com/typing-systems/typing-server/cmd/pubsub"
+	"github.com/typing-systems/typing-server/cmd/settings"
 )
 
 func GenerateUUID() string {
@@ -40,16 +41,18 @@ func InstantiateBroker() *pubsub.Broker {
 }
 
 func Log(text string) {
-	f, err := os.OpenFile("./server.log", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
-	if err != nil {
-		panic(err)
-	}
+	if settings.Values.DEBUG {
+		f, err := os.OpenFile("./server.log", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+		if err != nil {
+			panic(err)
+		}
 
-	if _, err = f.WriteString(time.Now().Format("01-02-2006 15:04:05.000000		") + text + "\n"); err != nil {
-		panic(err)
-	}
+		if _, err = f.WriteString(time.Now().Format("01-02-2006 15:04:05.000000		") + text + "\n"); err != nil {
+			panic(err)
+		}
 
-	if err := f.Close(); err != nil {
-		log.Fatalf("error closing file: %v", err)
+		if err := f.Close(); err != nil {
+			log.Fatalf("error closing file: %v", err)
+		}
 	}
 }
