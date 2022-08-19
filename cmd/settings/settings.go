@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 type settings struct {
@@ -15,7 +16,7 @@ type settings struct {
 var Values settings
 
 func Load(env string) {
-	filename := env + "_settings.json"
+	filename := filepath.Join(filepath.Clean(env), "_settings.json")
 
 	if _, err := os.Stat(filename); errors.Is(err, os.ErrNotExist) {
 		// filename does not exist
@@ -52,7 +53,7 @@ func generate(env string) settings {
 	}
 
 	// 0600 file perm means read/write by owner only
-	filename := env + "_settings.json"
+	filename := filepath.Join(filepath.Clean(env), "_settings.json")
 	err = ioutil.WriteFile(filename, jsonCfg, 0600)
 	if err != nil {
 		log.Fatalf("error writing settings file: %v", err)
