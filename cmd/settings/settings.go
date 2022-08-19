@@ -39,8 +39,7 @@ func Load(env string) {
 
 func decodeJSON(f *os.File) {
 	decoder := json.NewDecoder(f)
-	err := decoder.Decode(&Values)
-	if err != nil {
+	if err := decoder.Decode(&Values); err != nil {
 		log.Fatalf("error decoding json from settings file: %v", err)
 	}
 }
