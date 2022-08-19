@@ -41,7 +41,7 @@ func InstantiateBroker() *pubsub.Broker {
 }
 
 func Log(text string) {
-	if settings.Values.Debug {
+	if settings.Values.DEBUG {
 		f, err := os.OpenFile("./server.log", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 		if err != nil {
 			panic(err)

@@ -10,15 +10,15 @@ import (
 )
 
 type settings struct {
-	Debug bool
+	DEBUG bool
 }
 
 var Values settings
 
 func Load(env string) {
-	filename := filepath.Join(filepath.Clean(env), "_settings.json")
+	filename := env + "_settings.json"
 
-	if _, err := os.Stat(filename); errors.Is(err, os.ErrNotExist) {
+	if _, err := os.Stat(filepath.Clean(filename)); errors.Is(err, os.ErrNotExist) {
 		// filename does not exist
 		Values = generate(env)
 	} else if err != nil {
@@ -28,23 +28,27 @@ func Load(env string) {
 		if err != nil {
 			log.Fatalf("error opening settings file: %v", err)
 		}
-		decoder := json.NewDecoder(f)
-		s := settings{}
-		err = decoder.Decode(&s)
-		if err != nil {
-			log.Fatalf("error decoding json from settings file: %v", err)
-		}
-		Values = s
+
+		decodeJSON(f)
+
 		if err := f.Close(); err != nil {
 			log.Fatalf("error closing settings file: %v", err)
 		}
 	}
 }
 
+func decodeJSON(f *os.File) {
+	decoder := json.NewDecoder(f)
+	err := decoder.Decode(&Values)
+	if err != nil {
+		log.Fatalf("error decoding json from settings file: %v", err)
+	}
+}
+
 func generate(env string) settings {
 	// default settings
 	s := settings{
-		Debug: false,
+		DEBUG: false,
 	}
 
 	jsonCfg, err := json.MarshalIndent(s, "", "	")
@@ -53,7 +57,7 @@ func generate(env string) settings {
 	}
 
 	// 0600 file perm means read/write by owner only
-	filename := filepath.Join(filepath.Clean(env), "_settings.json")
+	filename := env + "_settings.json"
 	err = ioutil.WriteFile(filepath.Clean(filename), jsonCfg, 0600)
 	if err != nil {
 		log.Fatalf("error writing settings file: %v", err)
